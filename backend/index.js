@@ -55,7 +55,7 @@ app.post("/edit-story/:id",validateToken, editStory)
 //Delete story
 app.delete("/delete-story/:id", validateToken, deleteStory)
 
-//Delete story
+//Update is favorite story
 app.post("/is-favorite/:id", validateToken, isFavorite)
 
 //Search stories

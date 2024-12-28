@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PasswordInput from '../../components/Input/PasswordInput'
 import { useNavigate } from 'react-router-dom';
-import validateEmail from '../../utils/validateEmail';
 import axiosInstance from '../../utils/axiosInstance';
+import { validateEmail } from '../../utils/helper';
 
 const Login = () => {
   const [email, setEmail]= useState("");

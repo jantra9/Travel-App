@@ -23,15 +23,18 @@ const addStory = asyncHandler(async(req,res)=>{
      return res.status(400).json({ error: true, message: "Invalid visited date format!" });
    }
 
+   //Fallback for imgUrl if it's not provided
+   const fallbackImgUrl = `${process.env.BASE_URL}/assets/cat.jpg`
+   const finalImgUrl= imageUrl || fallbackImgUrl
    //Add the new story
    const newStory= await TravelStory.create({
         title,
         story,
         visitedLocation,
         userId:userID,
-        imageUrl,
+        imageUrl:finalImgUrl,
         visitedDate:parsedVisitedDate,
-        createdOn:Date.now(),
+        createdOn:Date.now(), 
    })
    res.status(200).json({message:"Story is added sucessfully"});
 })
@@ -40,7 +43,6 @@ const addStory = asyncHandler(async(req,res)=>{
 const getStories= asyncHandler(async(req,res)=>{
      const stories= await TravelStory.find({userId:req.user.userID});
      res.status(200).json(stories);
-     console.log("All of the stories")
 })
 
 //Add image
@@ -145,7 +147,7 @@ const addImage = asyncHandler(async (req, res) => {
     if(!travelStory){
         return res.status(404).json({message:"story not found"});
     }
-    travelStory.isFavoriate=isFavorite;
+    travelStory.isFavorite=isFavorite;
     await travelStory.save();
     res.status(200).json({story:travelStory, message:"Updated successfully"})
  })

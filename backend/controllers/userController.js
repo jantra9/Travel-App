@@ -64,8 +64,8 @@ const loginUser=asyncHandler(async(req,res)=>{
 //Get user
 const getUser=asyncHandler(async(req,res)=>{
    const userId= req.user.userID;
-   const userInfo= await User.findById(userId);
-   res.status(200).json(userInfo);
+   const user= await User.findById(userId);
+   res.status(200).json(user);
 })
 
 module.exports = {createAccount,loginUser,getUser};
