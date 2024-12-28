@@ -102,7 +102,6 @@ const addImage = asyncHandler(async (req, res) => {
     //Extract data from params and req.body
     const {id}= req.params;
     const {title, story, visitedLocation, imageUrl,visitedDate}= req.body;
-    const print= req.body;
     const {userID}= req.user;
     if (!title || !story || !visitedDate || !visitedLocation){
         return res.status(400).json({message:"All fields are required"})
@@ -147,7 +146,7 @@ const addImage = asyncHandler(async (req, res) => {
     if(!travelStory){
         return res.status(404).json({message:"story not found"});
     }
-    travelStory.isFavorite=isFavorite;
+    travelStory.isFavorite= isFavorite;
     await travelStory.save();
     res.status(200).json({story:travelStory, message:"Updated successfully"})
  })

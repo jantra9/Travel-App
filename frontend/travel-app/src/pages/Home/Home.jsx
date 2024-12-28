@@ -47,7 +47,9 @@ const Home = () => {
   //Handle Edit Story Click
   const handleEdit=(data)=>{}
   //Handle Travel Story Click
-  const handleViewStory=(data)=>{}
+  const handleViewStory=(data)=>{
+    setOpenAddEditModal({isShown:true, type:"edit",data:data})
+  }
   //Handle Update Favorite
   const updateIsFavorite = async (storyData) => {
     const storyId = storyData._id;
@@ -104,7 +106,7 @@ const Home = () => {
     {/* Add and Edit Travel Story Model */}
     <Modal
       isOpen={openAddEditModal.isShown}
-      onRequestClose={()=>{}}
+      onRequestClose={()=>{setOpenAddEditModal({ isShown: false, type: "data", data: null });}}
       style={{
         overlay:{
           backgroundColor:"rgba(0,0,0,0.5)",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdAdd,MdClose, MdDeleteOutline, MdUpdate  } from "react-icons/md";
 import DateSelector from '../../components/Input/DateSelector';
 import ImageSelector from '../../components/Input/ImageSelector';
@@ -16,7 +16,40 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
   const [visitedLocation,setVisitedLocation]=useState([]);
   const [error, setError] = useState("")
   //Update old story
-  const updateTravelStory=()=>{};
+  const updateTravelStory=async()=>{
+    try {
+      const id= storyInfo._id;
+      let imageUrl="";
+      let postData={  
+        title, 
+        story, 
+        imageUrl: storyInfo.imageUrl || "", 
+        visitedLocation, 
+        visitedDate:visitedDate 
+                    ? moment(visitedDate).valueOf() 
+                    : moment().valueOf()
+      }
+      
+      if (typeof storyImg=== 'object'
+      ) {
+        const imgUploadRes = await uploadImage(storyImg);
+        imageUrl = imgUploadRes.imageUrl || ""; // Update the imageUrl if a new image is selected
+        postData={
+          ...postData,
+          imageUrl:imageUrl
+        }
+      }
+      const response = await axiosInstance.put(`/edit-story/${id}`,
+      postData)
+      if(response.data){
+        toast.success("Story is edited successfully");
+        getAllTravelStories();
+        onClose();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
   //Add new story
   const addNewTravelStory=async()=>{
     try {
@@ -41,7 +74,6 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
       }
     }catch (error) {
       console.error("Error adding travel story:", error);
-      toast.error("An error occurred while adding your travel story.");
     }
   };
   //Handle update or add
@@ -53,6 +85,16 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
       updateTravelStory()
     } else addNewTravelStory()
   }
+  useEffect(() => {
+    if(storyInfo && type==="edit"){
+      setTitle(storyInfo.title)
+      setStory(storyInfo.story)
+      setStoryImg(storyInfo.imageUrl)
+      setVisitedLocation(storyInfo.visitedLocation)
+      setVisitedDate(storyInfo.visitedDate)
+    } 
+  }, [])
+  
   return (
     <div>
         <div className='flex items-center justify-between'>

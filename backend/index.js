@@ -50,7 +50,7 @@ app.use("/uploads",express.static(path.join(__dirname,"uploads")))
 app.use("/assets",express.static(path.join(__dirname,"assets")))
 
 //Edit travel story
-app.post("/edit-story/:id",validateToken, editStory)
+app.put("/edit-story/:id",validateToken, editStory)
 
 //Delete story
 app.delete("/delete-story/:id", validateToken, deleteStory)

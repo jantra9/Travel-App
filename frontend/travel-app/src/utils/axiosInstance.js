@@ -8,9 +8,12 @@ const axiosInstance= axios.create({
     },
 })
 
+//Used to intercept all outgoing requests made by axiosInstance
 axiosInstance.interceptors.request.use(
     (config)=>{
+        //Retrieve token from localStorage
         const accessToken= localStorage.getItem("token");
+        //Add token to the headers
         if(accessToken){
             config.headers.Authorization=`Bearer ${accessToken}`;
         }

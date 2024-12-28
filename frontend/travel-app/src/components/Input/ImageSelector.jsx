@@ -4,6 +4,10 @@ import { MdDeleteOutline } from 'react-icons/md';
 const ImageSelector = ({image, setImage}) => {
     const inputRef= useRef(null);
     const [previewUrl, setPreviewUrl]= useState(null);
+    const handleDeleteImage=()=>{
+        setImage(null)
+    }
+
     const handleImageChange=(event)=>{
         const file=event.target.files[0]; //Access the first file selected
         if(file){setImage(file)}
@@ -50,12 +54,17 @@ const ImageSelector = ({image, setImage}) => {
                     Browse image files to upload
                 </p>
             </button>):(
-            <div>
+            <div className='w-full relative'>
                 <img 
                 src={previewUrl}
                 alt='Selected'
                 className=''
                 />
+                <button
+                onClick={handleDeleteImage}
+                className='btn-small btn-delete  absolute top-2 right-4'>
+                    <MdDeleteOutline className='text-lg' />
+                </button>
             </div>)}
     </div>
   )
