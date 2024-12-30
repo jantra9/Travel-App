@@ -15,6 +15,7 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
   const [story, setStory] = useState("")
   const [visitedLocation,setVisitedLocation]=useState([]);
   const [error, setError] = useState("")
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   //Update old story
   const updateTravelStory=async()=>{
     try {
@@ -85,6 +86,22 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
       updateTravelStory()
     } else addNewTravelStory()
   }
+  //Delete story
+  const handleDelete=async()=>{
+    try {
+      const id= storyInfo._id;
+      const response= await axiosInstance.delete(`/delete-story/${id}`)
+      console.log(response);
+      if(response.data){
+        console.log(`Delete ${response.data} sucessfully`)
+        getAllTravelStories();
+        onClose();
+        toast.success("Story is deleted successfully")
+      }
+    } catch (error) {
+      
+    }
+  };
   useEffect(() => {
     if(storyInfo && type==="edit"){
       setTitle(storyInfo.title)
@@ -97,7 +114,7 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
   
   return (
     <div>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between p-5'>
             <h5 className='text-xl font-medium text-slate-700'>
                 {type==="add"?"Add Story":"Update Story"}
             </h5>
@@ -111,7 +128,7 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
                 <button className='btn-small' onClick={handleAddorUpdateClick}>
                   <MdUpdate className='text-lg'/>UPDATE STORY
                 </button>
-                <button className='btn-small btn-delete' onClick={onClose}>
+                <button className='btn-small btn-delete' onClick={()=>setShowDeleteModal(true)}>
                   <MdDeleteOutline className='text-lg'/>DELETE
                 </button>
                 </>
@@ -128,7 +145,7 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
             </div>
         </div>
         <div>
-          <div className='flex-1 flex flex-col gap-2 pt-4'>
+          <div className='flex-1 flex flex-col gap-2 pt-4 p-5'>
             <label className='input-label'>TITLE</label>
             <input 
             type='text'
@@ -159,7 +176,22 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
             </div>
           </div>
         </div>
-    </div>
+        {showDeleteModal && (
+          <div className='absolute top-0 bg-slate-100/[0.8] w-full h-full '>
+            <div className='absolute bg-white h-36 w-[350px] left-1/2 transform -translate-x-1/2 top-1/3 py-10 px-5 rounded-lg '>
+                <h4 className='text-lg'>Are you sure you want to delete this story?</h4>
+                <div className=" flex justify-center items-center gap-10 mt-5">
+                  <button className="btn-small" onClick={handleDelete}>
+                    Confirm
+                  </button>
+                  <button className="btn-delete btn-small" onClick={() => setShowDeleteModal(false)}>
+                    Cancel
+                  </button>
+                </div>
+            </div>
+          </div>
+      )}
+      </div>
   )
 }
 

@@ -12,7 +12,7 @@ const TravelStoryCard = ({ imgUrl, title, story, date, location, isFavorite, onC
         <img 
         src={imgUrl}
         alt={title}
-        className='w-full h-56 object-cover rounded-lg'
+        className='w-full h-60 object-cover rounded-lg'
         onClick={onClick}
         />
         {/* Favorite button */}

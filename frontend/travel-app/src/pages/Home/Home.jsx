@@ -80,9 +80,8 @@ const Home = () => {
     <Navbar userInfo={userInfo}/>
     <div className='container mx-auto py-10 '>
       <div className='flex gap-7'>
-        <div className=' flex-1'>
           {allStories.length>0 ? (
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-3 gap-4'>
               {allStories.map((item)=>( 
                 <TravelStoryCard 
                 key={item._id}
@@ -100,8 +99,6 @@ const Home = () => {
             </div>
           ):(<>Empty Card Here</>)}
         </div>
-        <div className='w-[320px]'></div>
-      </div>
     </div>
     {/* Add and Edit Travel Story Model */}
     <Modal
@@ -110,7 +107,7 @@ const Home = () => {
       style={{
         overlay:{
           backgroundColor:"rgba(0,0,0,0.5)",
-          zIndex:999,
+          zIndex:99,
         },
       }}
       appElement={document.getElementById("root")}
