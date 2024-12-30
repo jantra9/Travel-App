@@ -2,8 +2,6 @@ import React from 'react'
 import {FaHeart} from 'react-icons/fa6';
 import {GrMapLocation} from "react-icons/gr"
 import moment from 'moment/moment';
-
-
 const TravelStoryCard = ({ imgUrl, title, story, date, location, isFavorite, onClick, onEdit, onFavoriteClick}) => {
   return (
     <div>
@@ -36,10 +34,7 @@ const TravelStoryCard = ({ imgUrl, title, story, date, location, isFavorite, onC
           </div>
         </div>
       </div>
-
-     
     </div>
   )
 }
-
 export default TravelStoryCard

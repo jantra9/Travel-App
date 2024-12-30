@@ -21,18 +21,7 @@ const Home = () => {
     type:"add",
     data:null,
   });
-  const storyCardProps = (item) => ({
-  key: item._id,
-  imgUrl: item.imageUrl,
-  title: item.title,
-  story: item.story,
-  date: item.visitedDate,
-  location: item.visitedLocation,
-  isFavorite: item.isFavorite,
-  onEdit: () => handleEdit(item),
-  onClick: () => handleViewStory(item),
-  onFavoriteClick: () => updateIsFavorite(item),
-});
+
   //Get User Info
   const getUserInfo= async()=>{
     try {
@@ -82,7 +71,7 @@ const Home = () => {
       console.error("Error updating favorite status for story ID:", storyId, error);
     }
   };
-  //Handle real-time search #############
+  //Handle real-time search
   const handleSearch=(e)=>{
     const searchInput= e.target.value;
     setSearchValue(searchInput)
@@ -92,7 +81,6 @@ const Home = () => {
     );
       setFilteredStories(filteredItems)  
   };
-
   //Hanle clear the search input
   const handleClear=()=>{
     setSearchValue("");
@@ -104,7 +92,6 @@ const Home = () => {
     getAllTravelStories();
     return()=>{};
   },[]);
- 
   return (
   <>
     <Navbar 
@@ -148,7 +135,6 @@ const Home = () => {
                 />
               ))
             }
-
             </div>
           ):(<EmptyCard message="Start creating your first travel story"></EmptyCard>)}
         </div>
@@ -184,5 +170,4 @@ const Home = () => {
   </>
   )
 }
-
 export default Home

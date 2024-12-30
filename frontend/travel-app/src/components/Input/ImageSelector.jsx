@@ -7,7 +7,6 @@ const ImageSelector = ({image, setImage}) => {
     const handleDeleteImage=()=>{
         setImage(null)
     }
-
     const handleImageChange=(event)=>{
         const file=event.target.files[0]; //Access the first file selected
         if(file){setImage(file)}

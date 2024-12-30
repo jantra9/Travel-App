@@ -3,7 +3,6 @@ import { MdOutlineDateRange, MdClose } from 'react-icons/md'
 import { DayPicker } from "react-day-picker";
 import moment from 'moment'
 
-
 const DateSelector = ({date, setDate}) => {
     const [openDatePicker,setOpenDatePicker]=useState(false);
   return (
@@ -22,5 +21,4 @@ const DateSelector = ({date, setDate}) => {
     </div>
   )
 }
-
 export default DateSelector
