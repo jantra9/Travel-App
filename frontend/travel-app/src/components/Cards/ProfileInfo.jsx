@@ -1,11 +1,8 @@
 import React from 'react'
 import { getInitials } from '../../utils/helper';
 
-const ProfileInfo = ({userInfo}) => {
-    const onLogout=()=>{};
-    if (!userInfo) {
-        return null; 
-    }
+const ProfileInfo = ({userInfo, onLogout}) => {
+    
 const initial =getInitials(userInfo?.fullName)
   return (
     userInfo && 
