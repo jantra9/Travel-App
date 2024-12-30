@@ -8,16 +8,31 @@ import 'react-toastify/dist/ReactToastify.css'
 import {MdAdd} from 'react-icons/md'
 import Modal from 'react-modal';
 import AddEditTravelStory from './AddEditTravelStory';
+import EmptyCard from '../../components/Cards/EmptyCard';
 
 const Home = () => {
   const navigate= useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [allStories, setAllStories]=useState([]);
+  const [filteredStories, setFilteredStories] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const [openAddEditModal, setOpenAddEditModal]=useState({
     isShown:false,
     type:"add",
     data:null,
-  })
+  });
+  const storyCardProps = (item) => ({
+  key: item._id,
+  imgUrl: item.imageUrl,
+  title: item.title,
+  story: item.story,
+  date: item.visitedDate,
+  location: item.visitedLocation,
+  isFavorite: item.isFavorite,
+  onEdit: () => handleEdit(item),
+  onClick: () => handleViewStory(item),
+  onFavoriteClick: () => updateIsFavorite(item),
+});
   //Get User Info
   const getUserInfo= async()=>{
     try {
@@ -67,7 +82,22 @@ const Home = () => {
       console.error("Error updating favorite status for story ID:", storyId, error);
     }
   };
+  //Handle real-time search #############
+  const handleSearch=(e)=>{
+    const searchInput= e.target.value;
+    setSearchValue(searchInput)
+    const filteredItems= allStories.filter((story)=>
+      story.title.toLowerCase().includes(searchInput.toLowerCase()) || 
+      story.story.toLowerCase().includes(searchInput.toLowerCase())
+    );
+      setFilteredStories(filteredItems)  
+  };
 
+  //Hanle clear the search input
+  const handleClear=()=>{
+    setSearchValue("");
+    setFilteredStories(allStories)
+  };
   //Use Effect to activate the functions
   useEffect(()=>{
     getUserInfo();
@@ -77,27 +107,50 @@ const Home = () => {
  
   return (
   <>
-    <Navbar userInfo={userInfo}/>
+    <Navbar 
+    userInfo={userInfo} 
+    handleSearch={handleSearch} 
+    searchValue={searchValue}
+    setSearchValue={setSearchValue}
+    handleClear={handleClear}
+     />
     <div className='container mx-auto py-10 '>
       <div className='flex gap-7'>
           {allStories.length>0 ? (
             <div className='grid grid-cols-3 gap-4'>
-              {allStories.map((item)=>( 
+             {!searchValue ? 
+              allStories.map((item) => (
                 <TravelStoryCard 
-                key={item._id}
-                imgUrl= {item.imageUrl}
-                title={item.title}
-                story={item.story}
-                date={item.visitedDate}
-                location={item.visitedLocation}
-                isFavorite={item.isFavorite}
-                onEdit={()=>handleEdit(item)}
-                onClick={()=>handleViewStory(item)}
-                onFavoriteClick={()=> updateIsFavorite(item)} 
+                  key={item._id}
+                  imgUrl={item.imageUrl}
+                  title={item.title}
+                  story={item.story}
+                  date={item.visitedDate}
+                  location={item.visitedLocation}
+                  isFavorite={item.isFavorite}
+                  onEdit={() => handleEdit(item)}
+                  onClick={() => handleViewStory(item)}
+                  onFavoriteClick={() => updateIsFavorite(item)} 
                 />
-              ))}
+              )) : 
+              filteredStories.map((item) => (
+                <TravelStoryCard 
+                  key={item._id}
+                  imgUrl={item.imageUrl}
+                  title={item.title}
+                  story={item.story}
+                  date={item.visitedDate}
+                  location={item.visitedLocation}
+                  isFavorite={item.isFavorite}
+                  onEdit={() => handleEdit(item)}
+                  onClick={() => handleViewStory(item)}
+                  onFavoriteClick={() => updateIsFavorite(item)} 
+                />
+              ))
+            }
+
             </div>
-          ):(<>Empty Card Here</>)}
+          ):(<EmptyCard message="Start creating your first travel story"></EmptyCard>)}
         </div>
     </div>
     {/* Add and Edit Travel Story Model */}

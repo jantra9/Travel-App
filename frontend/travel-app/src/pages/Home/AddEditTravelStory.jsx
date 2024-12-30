@@ -91,7 +91,6 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
     try {
       const id= storyInfo._id;
       const response= await axiosInstance.delete(`/delete-story/${id}`)
-      console.log(response);
       if(response.data){
         console.log(`Delete ${response.data} sucessfully`)
         getAllTravelStories();
@@ -122,7 +121,7 @@ const AddEditTravelStory = ({storyInfo, type, onClose,getAllTravelStories}) => {
               <div className='flex items-center gap-3 bg-cyan-50/50 p-2 rounded-l-lg'>
                {type==="add" ? 
                (<button className='btn-small' onClick={handleAddorUpdateClick}>
-                  <MdAdd className="text-lg" />ADD STORY
+                  <MdAdd className="text-lg" />SAVE STORY
                 </button>):(
                 <>
                 <button className='btn-small' onClick={handleAddorUpdateClick}>
